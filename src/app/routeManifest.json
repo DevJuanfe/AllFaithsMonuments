@@ -1,0 +1,37 @@
+[
+  {
+    "name": "home",
+    "path": "/",
+    "title": "All Faiths Monuments — Memories made to last"
+  },
+  {
+    "name": "about",
+    "path": "/about/",
+    "title": "Our story — All Faiths Monuments"
+  },
+  {
+    "name": "contact",
+    "path": "/contact/",
+    "title": "Contact us — All Faiths Monuments"
+  },
+  {
+    "name": "engraving",
+    "path": "/engraving/",
+    "title": "Engraving & lettering — All Faiths Monuments"
+  },
+  {
+    "name": "gallery",
+    "path": "/gallery/",
+    "title": "Selected work — All Faiths Monuments"
+  },
+  {
+    "name": "granite-colors",
+    "path": "/granite-colors/",
+    "title": "Granite colors — All Faiths Monuments"
+  },
+  {
+    "name": "guidance",
+    "path": "/guidance/",
+    "title": "Guidance — All Faiths Monuments"
+  }
+]

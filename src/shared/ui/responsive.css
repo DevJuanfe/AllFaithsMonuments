@@ -1,0 +1,65 @@
+/* DC-043: preserve the editorial hierarchy while keeping mobile content usable. */
+@media (max-width: 950px) {
+  .utility { height: auto; min-height: 32px; padding: 6px 0; font-size: 10px; line-height: 1.35; }
+  .utility-left { min-width: 0; }
+  .header-inner > .lang-switch { display: none; }
+  .site-header .lang-seg { display: inline-flex; flex-shrink: 0; }
+  .site-header .lang-seg button { min-width: 44px; height: 44px; }
+  .mobile-menu { min-width: 44px; min-height: 44px; }
+  .site-header .nav {
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+  }
+  .site-header .nav a { min-height: 44px; display: flex; align-items: center; font-size: 15px; }
+  body:has(.nav.open) .mobile-sticky { visibility: hidden; }
+
+  .process-grid { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+  .process-head { position: static; }
+  .process .timeline-shell { min-width: 0; padding-left: 48px; }
+  .process .timeline-track { left: 5px; }
+  .process .steps { margin-top: 0; }
+  .process .step::before, .process .step:nth-child(3)::before { left: -49px; }
+  .process .step p, .process-aside { font-size: 15px; line-height: 1.65; }
+
+  .contact-grid, .granite-grid { grid-template-columns: minmax(0, 1fr); }
+  .contact-grid > *, .granite-grid > *, .studio-field, .form-field { min-width: 0; }
+  .form-field input, .form-field textarea, .studio-field input { font-size: 16px; }
+  .swatches-row { flex-wrap: wrap; }
+  .swatch { flex: 1 1 100px; min-height: 48px; }
+}
+
+@media (max-width: 660px) {
+  .hero h1 { font-size: clamp(48px, 13vw, 65px); }
+  .hero-care strong, .card-label, .footer-links h4 { font-size: 12px; }
+  .hero-care span, .story-badge, .collection-intro > span { font-size: 14px; }
+  .sky-section { grid-template-columns: minmax(0, 1fr); }
+  .sky-film { min-height: 230px; }
+  .sky-panel { padding: 34px 20px; gap: 24px; border-left: 0; }
+  .sky-panel .sky-note { font-size: 14px; }
+  .values .wrap { width: calc(100% - 40px); }
+  .values { padding: 72px 0; }
+  .value { grid-template-columns: minmax(100px, .75fr) minmax(0, 1fr); gap: 16px; padding: 20px 0; }
+  .value h3, .value p { font-size: 14px; }
+  .services .section-head { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .services .section-head .textlink { justify-self: start; margin: 0; }
+  .service-grid { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto; }
+  .service-card:first-child { grid-row: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto; }
+  .service-card:first-child .card-pic { min-height: 300px; }
+  .service-card:first-child .card-info { padding: 26px 24px; }
+  .card-info { min-width: 0; }
+  .card-info h3 { overflow-wrap: anywhere; }
+  .card-info p, .card-info a, .textlink { font-size: 14px; }
+  .form-row, .studio-controls { grid-template-columns: minmax(0, 1fr); }
+  .form-field label, .studio-field label, .studio-swatches > strong { font-size: 14px; }
+  .contact-info-block p, .contact-info-block small, .contact-form > p,
+  .granite-disclaimer, .studio-footnote { font-size: 14px; line-height: 1.65; }
+  .footer-links a, .footer-links span { font-size: 14px; }
+  .mobile-sticky { min-height: 48px; align-items: center; font-size: 14px; }
+}
+
+@media (max-width: 480px) {
+  .service-card:not(:first-child) { grid-template-columns: minmax(0, 1fr); }
+  .service-card:not(:first-child) .card-pic { min-height: 210px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .engraving-studio { padding: 22px 18px; }
+  .footer-bottom { font-size: 12px; line-height: 1.5; }
+}

@@ -1,0 +1,6 @@
+# Exportación estática generada para compartir
+exports/
+Pendientes.md
+node_modules/
+dist/
+.env.local

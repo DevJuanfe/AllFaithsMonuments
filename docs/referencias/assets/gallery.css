@@ -1,0 +1,28 @@
+/* DC-028: full-frame photographic collection. */
+.gallery-collection{background:var(--bone);padding:100px 0 110px}
+.gallery-collection .gallery-heading{margin-bottom:48px}
+.gallery-es{display:none}html[lang="es"] .gallery-en{display:none}html[lang="es"] .gallery-es{display:inline}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.collection-intro{border-top:1px solid var(--line);padding:23px 0 42px;display:flex;align-items:baseline;justify-content:space-between;gap:32px;color:var(--stone)}
+.collection-intro p{margin:0;max-width:530px;font-size:15px}.collection-intro>span{font-size:11px;letter-spacing:.025em}
+.memorial-collection{columns:3;column-gap:28px}
+.collection-card{margin:0 0 36px;break-inside:avoid;display:inline-block;width:100%;vertical-align:top}
+.collection-open{display:block;position:relative;background:var(--sand);cursor:zoom-in}
+.collection-open img{display:block;width:100%;height:auto}
+.collection-zoom{position:absolute;right:12px;bottom:12px;display:grid;place-items:center;width:38px;height:38px;background:var(--bone);color:var(--ink);font-size:24px;transition:background .2s,color .2s}
+.collection-open:hover .collection-zoom,.collection-open:focus-visible .collection-zoom{background:var(--ink);color:var(--bone)}
+.collection-card figcaption{font-family:var(--serif);font-size:24px;line-height:1.25;padding:15px 0 14px;border-bottom:1px solid var(--line)}
+.photo-viewer{width:min(1280px,calc(100% - 40px));max-width:none;max-height:calc(100dvh - 40px);padding:20px 28px;border:1px solid var(--linen);background:var(--bone);color:var(--ink)}
+.photo-viewer::backdrop{background:rgba(21,22,26,.86)}
+.viewer-toolbar,.viewer-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.viewer-toolbar{padding-bottom:16px}.viewer-toolbar h2{font-family:var(--serif);font-size:28px;font-weight:500;margin:0}
+.photo-viewer button{background:transparent;color:var(--ink);border:1px solid var(--stone);padding:10px 15px;min-height:44px;font-size:13px}
+.photo-viewer button:hover{background:var(--sand)}
+.viewer-stage{display:flex;justify-content:center;background:var(--sand)}
+.viewer-image{display:block;max-width:100%;width:auto;height:calc(100dvh - 220px);object-fit:contain}
+.viewer-bottom{padding-top:16px}.viewer-count{margin:0;font-size:12px;color:var(--stone)}
+html:has(.photo-viewer[open]){overflow:hidden}
+@media(max-width:950px){.memorial-collection{columns:2;column-gap:20px}.collection-intro{display:block}.collection-intro>span{display:block;margin-top:14px}}
+@media(max-width:660px){.gallery-collection{padding:56px 0 72px}.gallery-collection .gallery-heading{grid-template-columns:1fr;gap:30px}.gallery-collection .gallery-heading .section-title{font-size:48px}.memorial-collection{columns:1}.collection-card{margin-bottom:28px}.collection-intro{padding-bottom:28px}.photo-viewer{width:calc(100% - 16px);padding:14px;max-height:calc(100dvh - 16px)}.viewer-toolbar h2{font-size:24px}.photo-viewer button{padding:9px}.viewer-image{height:calc(100dvh - 200px)}}
+@media(prefers-reduced-motion:reduce){.collection-zoom{transition:none}}
+@media(min-width:951px){.collection-intro>span,.viewer-count{font-size:14px}}
