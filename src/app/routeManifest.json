@@ -5,14 +5,9 @@
     "title": "All Faiths Monuments — Memories made to last"
   },
   {
-    "name": "about",
-    "path": "/about/",
-    "title": "Our story — All Faiths Monuments"
-  },
-  {
-    "name": "contact",
-    "path": "/contact/",
-    "title": "Contact us — All Faiths Monuments"
+    "name": "monuments-by-faith",
+    "path": "/monuments-by-faith/",
+    "title": "Monuments by faith & tradition — All Faiths Monuments"
   },
   {
     "name": "engraving",
@@ -33,5 +28,15 @@
     "name": "guidance",
     "path": "/guidance/",
     "title": "Guidance — All Faiths Monuments"
+  },
+  {
+    "name": "about",
+    "path": "/about/",
+    "title": "Our story — All Faiths Monuments"
+  },
+  {
+    "name": "contact",
+    "path": "/contact/",
+    "title": "Contact us — All Faiths Monuments"
   }
 ]

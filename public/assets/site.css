@@ -364,3 +364,1072 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .card-pic img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
 .about-photo img{display:block;width:100%;height:auto}
 .hero-photo img[src*="/monumentos/"]{object-fit:contain;object-position:center}
+
+/* ───────────────────────────────────────────────────────────────────────
+   STEP 1 (V2) — REFINED EDITORIAL NAVBAR, PHOTO1-GRAVEYARD HERO BACKDROP
+   WITH HIGH-CONTRAST TYPOGRAPHY, UNIVERSAL FLOATING EMAIL CONTACT CTA
+   & GOOGLE MAPS LOCATION SECTION (HOME + CONTACT)
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* 1. Refined Header, 5-Item Navigation, Floating Submenu & Pill Controls */
+.site-header {
+  background: rgba(239, 231, 212, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(40, 37, 32, 0.14);
+}
+
+.site-header .lang-seg {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(250, 246, 237, 0.62);
+  border: 1px solid rgba(40, 37, 32, 0.16);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.site-header .lang-seg button {
+  min-width: 40px;
+  height: 28px;
+  padding: 0 11px;
+  border: 0 !important;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--stone);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+.site-header .lang-seg button:hover {
+  color: var(--ink);
+  background: rgba(250, 246, 237, 0.5);
+}
+.site-header .lang-seg button[aria-pressed="true"] {
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 0 1px 4px rgba(40, 37, 32, 0.12);
+}
+
+@media (min-width: 951px) {
+  .header-inner {
+    height: 86px;
+    gap: clamp(18px, 2.2vw, 36px);
+  }
+  .brand .brand-full {
+    height: 78px;
+    margin-left: -6px;
+  }
+  .site-header .nav {
+    position: static;
+    transform: none;
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: clamp(22px, 2.5vw, 38px);
+    margin: 0;
+  }
+  .site-header .nav > a:not(.nav-cta),
+  .site-header .nav .nav-group-toggle {
+    font-size: 14.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    padding: 6px 0;
+  }
+
+  .site-header .nav .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(250, 246, 237, 0.78);
+    color: var(--ink);
+    border: 1px solid rgba(40, 37, 32, 0.24);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    box-shadow: 0 2px 6px rgba(40, 37, 32, 0.04);
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  }
+  .site-header .nav .nav-cta-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--bronze);
+    transition: transform 0.3s ease;
+  }
+  .site-header .nav .nav-cta:hover,
+  .site-header .nav .nav-cta:focus-visible {
+    background: var(--bone);
+    border-color: var(--bronze);
+    color: var(--ink);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(40, 37, 32, 0.08);
+  }
+  .site-header .nav .nav-cta:hover .nav-cta-dot {
+    transform: scale(1.25);
+  }
+  .site-header .nav .nav-cta[aria-current="page"] {
+    background: var(--bone);
+    border-color: var(--bronze);
+    box-shadow: 0 0 0 1px var(--bronze);
+  }
+
+  .site-header .nav-submenu {
+    top: calc(100% + 14px);
+    left: -18px;
+    min-width: 310px;
+    background: rgba(250, 246, 237, 0.98);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(40, 37, 32, 0.15);
+    border-radius: 10px;
+    padding: 8px;
+    box-shadow: 0 20px 44px -12px rgba(21, 22, 26, 0.16);
+    gap: 2px;
+  }
+  .site-header .nav .nav-submenu a.submenu-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 11px 14px;
+    border-radius: 7px;
+    white-space: normal;
+    transition: background 0.22s ease, padding-left 0.22s ease;
+  }
+  .site-header .nav .nav-submenu a.submenu-item .submenu-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+  }
+  .site-header .nav .nav-submenu a.submenu-item .submenu-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--stone);
+    line-height: 1.35;
+  }
+  .site-header .nav .nav-submenu a.submenu-item:hover,
+  .site-header .nav .nav-submenu a.submenu-item:focus-visible {
+    background: var(--sand);
+    padding-left: 18px;
+  }
+  .site-header .nav .nav-submenu a.submenu-item[aria-current="page"] {
+    background: var(--sand);
+    box-shadow: inset 3px 0 0 var(--bronze);
+  }
+}
+
+@media (max-width: 950px) {
+  .site-header .nav .nav-submenu a.submenu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 6px 0;
+  }
+  .site-header .nav .nav-submenu a.submenu-item .submenu-desc {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--stone);
+  }
+}
+
+/* 2. Hero with Animated Photo1-graveyard.webp Backdrop & High-Contrast Luminous Typography */
+.hero.hero-cinematic {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(32px, 4.5vh, 60px) 0 clamp(38px, 5vh, 68px);
+  border-bottom: 1px solid var(--line);
+  background: var(--granite);
+  color: var(--bone);
+  isolation: isolate;
+}
+.hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: var(--granite);
+}
+.hero-backdrop-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 45%;
+  z-index: 1;
+  filter: saturate(0.95) contrast(1.04);
+  transform-origin: 55% 45%;
+  animation: heroKenBurns 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+.hero-backdrop-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(21, 22, 26, 0.84) 0%, rgba(21, 22, 26, 0.72) 45%, rgba(21, 22, 26, 0.34) 100%),
+    linear-gradient(180deg, rgba(21, 22, 26, 0.45) 0%, rgba(21, 22, 26, 0.20) 55%, rgba(21, 22, 26, 0.65) 100%);
+}
+@keyframes heroKenBurns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.11) translate3d(-1.8%, -1.2%, 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-backdrop-photo {
+    animation: none;
+  }
+}
+
+.hero.hero-cinematic .hero-copy .eyebrow {
+  color: var(--sand);
+  text-shadow: 0 1px 8px rgba(21, 22, 26, 0.6);
+}
+.hero.hero-cinematic h1 {
+  color: var(--bone);
+  text-shadow: 0 2px 22px rgba(21, 22, 26, 0.65);
+}
+.hero.hero-cinematic h1 em {
+  color: var(--sand);
+  text-decoration: underline;
+  text-decoration-color: rgba(154, 123, 79, 0.65);
+  text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
+}
+.hero.hero-cinematic .hero-lede {
+  color: rgba(250, 246, 237, 0.94);
+  text-shadow: 0 1px 12px rgba(21, 22, 26, 0.65);
+  font-weight: 400;
+}
+.hero.hero-cinematic .hero-actions .btn.dark {
+  background: var(--bone);
+  color: var(--ink);
+  border-color: var(--bone);
+  box-shadow: 0 6px 20px rgba(21, 22, 26, 0.28);
+}
+.hero.hero-cinematic .hero-actions .btn.dark:hover,
+.hero.hero-cinematic .hero-actions .btn.dark:focus-visible {
+  background: var(--sand);
+  border-color: var(--sand);
+  color: var(--ink);
+}
+.hero.hero-cinematic .hero-actions .btn.light {
+  background: rgba(21, 22, 26, 0.45);
+  backdrop-filter: blur(6px);
+  color: var(--bone);
+  border-color: rgba(250, 246, 237, 0.65);
+}
+.hero.hero-cinematic .hero-actions .btn.light:hover,
+.hero.hero-cinematic .hero-actions .btn.light:focus-visible {
+  background: rgba(250, 246, 237, 0.18);
+  border-color: var(--bone);
+  color: var(--bone);
+}
+.hero.hero-cinematic .hero-hint {
+  color: var(--sand);
+  text-shadow: 0 1px 10px rgba(21, 22, 26, 0.6);
+}
+.hero.hero-cinematic .hero-hint .line {
+  background: var(--bronze);
+}
+
+/* 3. Right-Column Selected Works Slideshow (#heroShowcase) */
+.hero-cinematic .hero-art {
+  min-height: 0;
+  padding: 0;
+}
+.hero-cinematic .hero-art::before {
+  display: none;
+}
+.hero-showcase {
+  background: rgba(250, 246, 237, 0.95);
+  backdrop-filter: blur(10px);
+  color: var(--ink);
+  border: 1px solid rgba(250, 246, 237, 0.35);
+  box-shadow: 0 24px 52px -16px rgba(21, 22, 26, 0.45);
+  padding: 18px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hero-showcase-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid rgba(40, 37, 32, 0.14);
+  padding-bottom: 10px;
+}
+.hero-showcase-kicker {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+.hero-showcase-counter {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--bronze);
+}
+.hero-showcase-stage {
+  position: relative;
+  height: clamp(290px, 40vh, 410px);
+  background: var(--sand);
+  border: 1px solid rgba(40, 37, 32, 0.14);
+  overflow: hidden;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.65s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background: var(--sand);
+}
+.hero-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+.hero-slide img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 14px 14px 48px;
+  background: radial-gradient(circle at 50% 45%, var(--bone) 0%, var(--sand) 100%);
+}
+.hero-slide figcaption {
+  position: relative;
+  z-index: 3;
+  background: rgba(250, 246, 237, 0.96);
+  border-top: 1px solid rgba(40, 37, 32, 0.12);
+  padding: 9px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+.hero-showcase-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 2px;
+}
+.hero-slide-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.hero-slide-dot {
+  width: 20px;
+  height: 4px;
+  padding: 0;
+  border: 0;
+  background: var(--linen);
+  transition: background 0.3s ease, width 0.3s ease;
+}
+.hero-slide-dot.is-active {
+  width: 32px;
+  background: var(--bronze);
+}
+.hero-showcase-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-showcase-link {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--bronze);
+  padding-bottom: 2px;
+  transition: color 0.25s ease;
+}
+.hero-showcase-link:hover {
+  color: var(--bronze);
+}
+.hero-slide-arrows {
+  display: inline-flex;
+  gap: 6px;
+}
+.hero-slide-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid rgba(40, 37, 32, 0.22);
+  background: var(--bone);
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+.hero-slide-btn:hover,
+.hero-slide-btn:focus-visible {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bone);
+}
+
+@media (min-width: 951px) {
+  .hero.hero-cinematic h1 {
+    font-size: clamp(50px, 4.7vw, 76px);
+    margin: 16px 0 20px;
+  }
+  .hero.hero-cinematic .hero-lede {
+    margin-bottom: 24px;
+    font-size: 16.5px;
+    line-height: 1.68;
+  }
+  .hero.hero-cinematic .hero-hint {
+    margin-top: 28px;
+  }
+  .sky-section {
+    min-height: clamp(220px, 26vh, 310px);
+  }
+  .sky-film {
+    min-height: clamp(220px, 26vh, 310px);
+  }
+  .sky-panel {
+    padding: clamp(24px, 3vh, 38px) clamp(28px, 3vw, 46px);
+    gap: 14px;
+  }
+  .sky-panel blockquote {
+    font-size: clamp(26px, 2.4vw, 36px);
+  }
+}
+
+/* 4. Universal Floating Email Contact CTA (.contact-fab) on ALL pages & ALL devices */
+.mobile-sticky {
+  display: none !important;
+}
+.contact-fab,
+.contact-fab.is-hidden {
+  display: inline-flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  align-items: center;
+  gap: 12px;
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 45;
+  padding: 9px 20px 9px 10px;
+  border-radius: 999px;
+  background: rgba(21, 22, 26, 0.94);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--bone);
+  border: 1px solid rgba(154, 123, 79, 0.55);
+  box-shadow: 0 14px 34px -8px rgba(21, 22, 26, 0.42), 0 0 0 1px rgba(250, 246, 237, 0.08) inset;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+.contact-fab:hover,
+.contact-fab:focus-visible {
+  background: var(--ink);
+  border-color: var(--bronze);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 40px -8px rgba(21, 22, 26, 0.52), 0 0 0 1px rgba(154, 123, 79, 0.35) inset;
+}
+.contact-fab-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--bronze);
+  color: var(--bone);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  transition: transform 0.28s ease, background 0.28s ease;
+}
+.contact-fab:hover .contact-fab-icon {
+  transform: scale(1.06);
+}
+.contact-fab-icon svg {
+  width: 19px;
+  height: 19px;
+}
+.contact-fab-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.2;
+  gap: 2px;
+}
+.contact-fab-title {
+  font-family: var(--sans);
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--bone);
+}
+.contact-fab-sub {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.015em;
+  color: var(--sand);
+}
+
+@media (max-width: 950px) {
+  .contact-fab,
+  .contact-fab.is-hidden {
+    right: 16px;
+    bottom: 16px;
+    padding: 8px 16px 8px 9px;
+    gap: 10px;
+  }
+  .contact-fab-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .contact-fab-icon svg {
+    width: 17px;
+    height: 17px;
+  }
+  .contact-fab-title {
+    font-size: 13px;
+  }
+  .contact-fab-sub {
+    font-size: 10.5px;
+  }
+  body:has(.nav.open) .contact-fab {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+/* 5. Workshop Location & Google Maps Section (Home & Contact before Footer) */
+.location-section {
+  padding: clamp(72px, 8vw, 124px) 0;
+  background: var(--bone);
+  border-top: 1px solid var(--line);
+}
+.location-grid {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: clamp(44px, 6vw, 96px);
+  align-items: center;
+}
+.location-details .eyebrow {
+  color: var(--stone);
+}
+.location-details .section-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bronze);
+}
+.location-lead {
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+.location-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 30px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.location-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.location-meta-item strong {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.location-meta-item p {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.location-meta-item small {
+  font-size: 13px;
+  color: var(--stone);
+  line-height: 1.5;
+}
+.location-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.location-map-card {
+  background: var(--sand);
+  border: 1px solid var(--line);
+  box-shadow: 16px 16px 0 rgba(204, 197, 181, 0.38);
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.location-map-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+.location-map-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.location-map-pin .pin-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bronze);
+  box-shadow: 0 0 0 3px rgba(154, 123, 79, 0.22);
+}
+.location-map-ext {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--bronze);
+  padding-bottom: 2px;
+  transition: color 0.25s ease;
+}
+.location-map-ext:hover {
+  color: var(--bronze);
+}
+.location-map-frame-wrap {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 44vh, 430px);
+  background: var(--linen);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.location-map-frame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: saturate(0.92) contrast(1.02);
+}
+
+@media (max-width: 950px) {
+  .location-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+  }
+  .location-map-card {
+    box-shadow: 10px 10px 0 rgba(204, 197, 181, 0.35);
+  }
+  .location-map-frame-wrap {
+    height: 320px;
+  }
+}
+
+/* 6. Monuments by Faith & Tradition view (/monuments-by-faith/) */
+.faith-section {
+  padding: clamp(56px, 7vw, 110px) 0 clamp(72px, 8vw, 128px);
+  background: var(--bone);
+}
+.faith-header {
+  max-width: 780px;
+  margin-bottom: clamp(40px, 5vw, 64px);
+}
+.faith-header .eyebrow {
+  color: var(--stone);
+}
+.faith-header .section-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--bronze);
+}
+.faith-lead {
+  max-width: 640px;
+}
+.faith-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+.faith-card {
+  display: grid;
+  grid-template-rows: 290px 1fr;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  transition: border-color .35s ease;
+}
+.faith-card:hover {
+  border-color: var(--stone);
+}
+.faith-card-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--linen);
+  border-bottom: 1px solid var(--line);
+}
+.faith-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  background: var(--sand);
+}
+.faith-card-body {
+  padding: 28px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.faith-card-body h2 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.4vw, 32px);
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--ink);
+}
+.faith-card-body p {
+  font-size: 15px;
+  line-height: 1.68;
+  color: var(--stone);
+  margin: 4px 0 14px;
+}
+.faith-card-links {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+}
+.faith-footnote {
+  margin-top: 42px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--stone);
+  max-width: 720px;
+}
+@media (max-width: 950px) {
+  .faith-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .faith-card {
+    grid-template-rows: 250px auto;
+  }
+  .faith-card-body {
+    padding: 24px 22px 26px;
+  }
+  .hero-showcase-stage {
+    height: 320px;
+  }
+}
+
+
+/* ───────────────────────────────────────────────────────────────────────
+   STEP 2 — GALLERY FILTERS, CONTEXTUAL INQUIRY, GRANITE GUIDE & ENGRAVING
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* Gallery & Faith Interactive Filter Chips (RF-009) */
+.gallery-filter-bar,
+.faith-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 36px;
+}
+.faith-filter-bar {
+  margin-top: 28px;
+  margin-bottom: 0;
+}
+.gallery-filter-chip,
+.faith-filter-btn {
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(40, 37, 32, 0.22);
+  background: var(--bone);
+  color: var(--stone);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.gallery-filter-chip:hover,
+.faith-filter-btn:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: var(--sand);
+}
+.gallery-filter-chip.is-active,
+.faith-filter-btn.is-active {
+  background: var(--ink);
+  color: var(--bone);
+  border-color: var(--ink);
+  box-shadow: 0 3px 10px rgba(21, 22, 26, 0.14);
+}
+.gallery-filter-reset {
+  padding: 8px 14px;
+  border: 0;
+  background: transparent;
+  color: var(--bronze);
+  font-size: 12.5px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Gallery Card Contextual Inquiry & Reference Code (RF-008, RF-010) */
+.collection-card figcaption.collection-caption-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+.collection-caption-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.collection-ref,
+.viewer-ref {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--stone);
+  text-transform: uppercase;
+}
+.collection-inquire-link {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--bronze);
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.25s ease, color 0.25s ease;
+}
+.collection-inquire-link:hover {
+  color: var(--ink);
+  border-bottom-color: var(--bronze);
+}
+.viewer-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.photo-viewer .viewer-inquire-btn {
+  min-height: 42px;
+  padding: 0 18px;
+  background: var(--ink);
+  color: var(--bone);
+  border-color: var(--ink);
+  font-size: 12.5px;
+}
+.gallery-empty-state {
+  padding: 48px 32px;
+  background: var(--sand);
+  border: 1px solid var(--line);
+  text-align: center;
+  margin-bottom: 48px;
+}
+.gallery-empty-state p {
+  max-width: 520px;
+  margin: 0 auto 24px;
+  color: var(--stone);
+  font-size: 15px;
+}
+.gallery-empty-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* Contact Form Contextual Banner & Complete Fields (RF-010, RF-020) */
+.inquiry-context-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 16px;
+  margin-bottom: 22px;
+  background: var(--sand);
+  border-left: 3px solid var(--bronze);
+  border-top: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.inquiry-context-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.inquiry-context-text small {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--bronze);
+  text-transform: uppercase;
+}
+.inquiry-context-text strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.inquiry-context-clear {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--bone);
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.form-select {
+  border: 1px solid var(--linen);
+  background: var(--bone);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 14px;
+  padding: 12px 14px;
+  min-height: 46px;
+  width: 100%;
+}
+
+/* Granite Simulator Extra Swatches & 6-Stone Mineral Guide (RF-012) */
+.swatch[data-stone="rose"] .swatch-chip {
+  background: #7D5650;
+}
+.swatch[data-stone="mahogany"] .swatch-chip {
+  background: #4E3832;
+}
+.studio-cta-row {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.granite-catalog-section {
+  padding: 0 0 clamp(80px, 9vw, 136px);
+  background: var(--bone);
+}
+.granite-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+.granite-mineral-card {
+  background: var(--sand);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.granite-mineral-sample {
+  height: 170px;
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  isolation: isolate;
+}
+.granite-mineral-sample::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20300%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.65%22%20numOctaves%3D%223%22%20seed%3D%2211%22%20stitchTiles%3D%22stitch%22%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23CCC5B5%22%20filter%3D%22url%28%23n%29%22%20opacity%3D%220.38%22%2F%3E%3C%2Fsvg%3E");
+  background-size: 160px 160px;
+  mix-blend-mode: overlay;
+  opacity: 0.42;
+}
+.sample-jet-black { background: linear-gradient(135deg, #15161A 0%, #282A30 50%, #101114 100%); }
+.sample-barre-gray { background: linear-gradient(135deg, #6B6B68 0%, #878681 52%, #595854 100%); }
+.sample-imperial-rose { background: linear-gradient(135deg, #7D5650 0%, #966B63 50%, #63423D 100%); }
+.sample-dakota-mahogany { background: linear-gradient(135deg, #4A352F 0%, #634840 50%, #382722 100%); }
+.sample-warm-sandstone { background: linear-gradient(135deg, #9C8B75 0%, #B5A48E 50%, #80715E 100%); }
+.sample-sierra-white { background: linear-gradient(135deg, #DCD6CA 0%, #EFECE4 50%, #C4BDB0 100%); }
+
+.granite-mineral-body {
+  padding: 24px 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.granite-mineral-body h3 {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 500;
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.granite-mineral-body p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--stone);
+  margin: 4px 0 14px;
+}
+.granite-mineral-body .textlink {
+  margin-top: auto;
+  align-self: flex-start;
+}
+
+.engraving-specialties {
+  border-top: 1px solid var(--line);
+}
+.faith-card-body h3 {
+  font-family: var(--serif);
+  font-size: clamp(26px, 2.4vw, 32px);
+  font-weight: 500;
+  line-height: 1.08;
+  margin: 0;
+  color: var(--ink);
+}
+
+@media (max-width: 950px) {
+  .granite-swatch-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 660px) {
+  .granite-swatch-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .viewer-toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

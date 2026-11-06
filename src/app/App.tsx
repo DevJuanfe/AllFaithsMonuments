@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import parse, { Element, type HTMLReactParserOptions } from 'html-react-parser';
 import { ContactForm } from '../features/contact/presentation/ContactForm';
 import { createContactGateway } from '../features/contact/infrastructure/contactGateway';
@@ -16,8 +16,8 @@ import '../shared/ui/responsive.css';
 const galleryRepository = createGalleryRepository();
 const contactGateway = createContactGateway();
 
-function currentRoute(): string {
-  const segment = window.location.pathname.split('/').filter(Boolean)[0];
+export function resolveRoute(pathname: string): string {
+  const segment = pathname.split('/').filter(Boolean)[0];
   return routeManifest.find((route) => route.name === segment)?.name ?? 'home';
 }
 
@@ -35,18 +35,63 @@ function parserOptions(gateway: ContactGateway): HTMLReactParserOptions {
   };
 }
 
-function ReferencePage({ route }: { route: string }) {
+function ReferencePage({
+  route,
+  onNavigate,
+}: {
+  route: string;
+  onNavigate: (pathname: string, hash?: string) => void;
+}) {
   const { language, setLanguage } = useLanguage();
-  const markup = useMemo(() => parse(frozenPages[route], parserOptions(contactGateway)), [route]);
-  useReferenceLanguage(language);
-  useReferenceInteractions(setLanguage);
+  const markup = useMemo(() => parse(frozenPages[route] ?? frozenPages.home, parserOptions(contactGateway)), [route]);
+  useReferenceLanguage(language, route);
+  useReferenceInteractions(setLanguage, route, onNavigate);
   return <>{markup}</>;
 }
 
 export function App() {
-  const route = currentRoute();
-  const page = <ReferencePage route={route} />;
-  return <LanguageProvider><ErrorBoundary>{route === 'gallery'
-    ? <GalleryProvider repository={galleryRepository} initialPhotos={approvedPhotos}>{page}</GalleryProvider>
-    : page}</ErrorBoundary></LanguageProvider>;
+  const [route, setRoute] = useState<string>(() => resolveRoute(window.location.pathname));
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setRoute(resolveRoute(window.location.pathname));
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const handleNavigate = useCallback((pathname: string, hash = '') => {
+    const nextRoute = resolveRoute(pathname);
+    const normalizedPath = nextRoute === 'home' ? '/' : `/${nextRoute}/`;
+    const nextUrl = `${normalizedPath}${hash}`;
+    if (window.location.pathname !== normalizedPath || window.location.hash !== hash) {
+      window.history.pushState({}, '', nextUrl);
+    }
+    setRoute(nextRoute);
+    requestAnimationFrame(() => {
+      if (hash && hash !== '#top') {
+        const target = document.getElementById(hash.slice(1));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    });
+  }, []);
+
+  const page = <ReferencePage route={route} onNavigate={handleNavigate} />;
+  return (
+    <LanguageProvider>
+      <ErrorBoundary>
+        {route === 'gallery' ? (
+          <GalleryProvider repository={galleryRepository} initialPhotos={approvedPhotos}>
+            {page}
+          </GalleryProvider>
+        ) : (
+          page
+        )}
+      </ErrorBoundary>
+    </LanguageProvider>
+  );
 }
