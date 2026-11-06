@@ -1,0 +1,15 @@
+.contact-verification { margin: 18px 0; }
+.contact-verification-widget { min-height: 65px; }
+.contact-verification-message { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: var(--stone); }
+.contact-verification-retry {
+  min-height: 44px;
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid var(--stone);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+@media (max-width: 480px) { .contact-verification-widget { min-height: 140px; } }
+.contact-verification-widget.is-unavailable { min-height: 0; }

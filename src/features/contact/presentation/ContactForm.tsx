@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { useLanguage } from '../../../shared/i18n/LanguageContext';
 import { translations } from '../../../shared/i18n/translations';
 import { submitInquiry } from '../application/submitInquiry';
 import type { ContactGateway } from '../domain/Inquiry';
+import { ContactVerification } from './ContactVerification';
+import './contact-verification.css';
 
 interface InquiryContextItem {
   id: string;
@@ -28,6 +30,9 @@ export function ContactForm({ gateway }: { gateway: ContactGateway }) {
   const { language } = useLanguage();
   const [status, setStatus] = useState<'success' | 'error' | null>(null);
   const [pending, setPending] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState('');
+  const [captchaAttempt, setCaptchaAttempt] = useState(0);
+  const onCaptchaToken = useCallback((token: string) => setCaptchaToken(token), []);
   const [contextItem, setContextItem] = useState<InquiryContextItem | null>(() => readStoredContext());
   const request = useRef<AbortController | null>(null);
 
@@ -52,6 +57,7 @@ export function ContactForm({ gateway }: { gateway: ContactGateway }) {
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (pending) return;
+    if (!captchaToken) return;
     const form = event.currentTarget;
     const data = new FormData(form);
     const honeypot = String(data.get('website_url') ?? '').trim();
@@ -89,6 +95,7 @@ export function ContactForm({ gateway }: { gateway: ContactGateway }) {
         email,
         message: composedMessage,
         locale: language,
+        captchaToken,
       }, request.current.signal);
       setStatus('success');
       form.reset();
@@ -98,6 +105,8 @@ export function ContactForm({ gateway }: { gateway: ContactGateway }) {
     } finally {
       setPending(false);
       request.current = null;
+      setCaptchaToken('');
+      setCaptchaAttempt((value) => value + 1);
     }
   };
 
@@ -176,7 +185,8 @@ export function ContactForm({ gateway }: { gateway: ContactGateway }) {
         <textarea id="formMessage" name="message" required maxLength={2000} data-ph="messagePh" placeholder="Tell us a little about what you need..."></textarea>
       </div>
 
-      <button className="btn dark" type="submit" data-i18n="formSubmit" disabled={pending}>Send inquiry</button>
+      <ContactVerification language={language} attempt={captchaAttempt} onToken={onCaptchaToken} />
+      <button className="btn dark" type="submit" data-i18n="formSubmit" disabled={pending || !captchaToken}>Send inquiry</button>
       <p className="privacy-note" data-i18n="formPrivacyRespect">Personal attention from our family team — never automated quotes. Your information is used solely to answer your inquiry.</p>
       <div id="formStatus" role="status" aria-live="polite" style={{ display: status ? 'block' : 'none' }}>{statusText}</div>
     </form>

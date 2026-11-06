@@ -26,7 +26,7 @@ describe('backend adapters', () => {
 
   it('posts the contact inquiry and accepts success only from a successful response', async () => {
     const request = vi.fn().mockResolvedValue(new Response(null, { status: 201 }));
-    const inquiry = { name: 'A visitor', email: 'visitor@example.test', message: 'Please contact me', locale: 'en' as const };
+    const inquiry = { name: 'A visitor', email: 'visitor@example.test', message: 'Please contact me', locale: 'en' as const, captchaToken: 'valid-token' };
     const gateway = createContactGateway('https://api.example.test/contact', request);
     await submitInquiry(gateway, inquiry);
     expect(request).toHaveBeenCalledWith('https://api.example.test/contact', expect.objectContaining({
@@ -37,6 +37,12 @@ describe('backend adapters', () => {
   });
 
   it('rejects a contact submission without an endpoint', async () => {
-    await expect(submitInquiry(createContactGateway(''), { name: '', email: 'visitor@example.test', message: 'Hello', locale: 'en' })).rejects.toThrow('not configured');
+    await expect(submitInquiry(createContactGateway(''), { name: '', email: 'visitor@example.test', message: 'Hello', locale: 'en', captchaToken: 'valid-token' })).rejects.toThrow('not configured');
+  });
+
+  it('does not send inquiries without a verification token', async () => {
+    const send = vi.fn();
+    await expect(submitInquiry({ send }, { name: 'Visitor', email: 'visitor@example.test', message: 'Hello', locale: 'en', captchaToken: '' })).rejects.toThrow('Verification is required');
+    expect(send).not.toHaveBeenCalled();
   });
 });

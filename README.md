@@ -60,7 +60,18 @@ VITE_CONTACT_URL=https://api.example.com/contact
 ```
 
 - **Galería:** `GET VITE_GALLERY_URL` devuelve un arreglo ordenado de fotos con los campos del ejemplo anterior, o `{ "photos": [...] }`. La respuesta reemplaza la colección local. Al entrar en la ruta, las 19 fotos aprobadas se muestran de inmediato mientras llega la respuesta remota. Si falla, se conserva esa colección.
-- **Contacto:** `POST VITE_CONTACT_URL` recibe JSON `{ "name", "email", "message", "locale" }`. Solo una respuesta HTTP `2xx` muestra el mensaje de recepción; un fallo muestra un aviso para reintentar o llamar. Sin URL configurada, el formulario nunca comunica un envío exitoso.
+- **Contacto:** `POST VITE_CONTACT_URL` recibe JSON `{ "name", "email", "message", "locale", "captchaToken" }`. Solo una respuesta HTTP `2xx` muestra el mensaje de recepción; un fallo muestra un aviso para reintentar o llamar. Sin URL configurada, el formulario nunca comunica un envío exitoso.
+
+### Protección del formulario con Turnstile
+
+El formulario incluye una integración preparada de Cloudflare Turnstile. Sin una clave pública configurada, la verificación y el envío permanecen deshabilitados; el sitio todavía no cuenta con un servidor que reciba consultas. Para activarlo:
+
+1. Crear un widget en Cloudflare Turnstile para los dominios definitivos y configurar su **clave pública** como `VITE_TURNSTILE_SITE_KEY` en el entorno de compilación de Vite. La clave pública no es secreta.
+2. Configurar `VITE_CONTACT_URL` con el servidor de contacto. En ese servidor guardar la **clave secreta** fuera del repositorio y nunca en variables `VITE_` ni en el navegador.
+3. Antes de aceptar, guardar o enviar la consulta, el servidor debe validar `captchaToken` con Siteverify. Se incluye [`server/verifyTurnstile.ts`](server/verifyTurnstile.ts) como ayuda para un backend TypeScript: requiere la clave secreta y una lista explícita de dominios permitidos, valida la acción `contact` y rechaza fallos. El archivo no es un servidor ni queda conectado automáticamente: el endpoint real debe llamarlo y rechazar cualquier solicitud sin verificación válida.
+4. Implementar en el servidor los demás controles de SEG-006, incluyendo límites de tamaño y frecuencia, validación de entradas y protección del correo. Revisar con el responsable de privacidad la integración de Cloudflare y los avisos o consentimientos que correspondan.
+
+Cada comprobante caduca a los cinco minutos y es de un solo uso. El formulario solicita otro después de cada intento. Para pruebas locales se puede usar la [clave pública de prueba de Cloudflare](https://developers.cloudflare.com/turnstile/troubleshooting/testing/) en `.env.local`; no debe emplearse en producción. Las claves secretas de prueba devuelven un hostname fijo y no devuelven la acción; las comprobaciones de hostname y acción se prueban aquí con respuestas simuladas y deben verificarse también con claves reales en el entorno definitivo.
 
 El backend debe permitir el origen de esta web si está en otro dominio. Si usa autenticación o un formato JSON distinto, adapta únicamente [`src/features/gallery/infrastructure/galleryRepository.ts`](src/features/gallery/infrastructure/galleryRepository.ts) y [`src/features/contact/infrastructure/contactGateway.ts`](src/features/contact/infrastructure/contactGateway.ts); los componentes y estilos no dependen del proveedor.
 

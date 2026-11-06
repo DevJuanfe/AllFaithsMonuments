@@ -3,6 +3,7 @@ export interface Inquiry {
   email: string;
   message: string;
   locale: 'en' | 'es';
+  captchaToken: string;
 }
 
 export interface ContactGateway {

@@ -1011,3 +1011,66 @@ Hasta 950 px, la pieza principal precede a las secundarias en una columna. Hasta
 - Revisión visual a 1280 × 900, 1440 × 900 y 1920 × 1080; además, teléfono de 375 px y tableta de 768 px. Capturas temporales fuera del repositorio. Se mantienen Cormorant Garamond, Lato y los tokens institucionales.
 - EN/ES, destinos Gallery/Contact, navegación por Tab y Enter y preferencia de movimiento reducido comprobados; ninguna excepción JavaScript. Contraste Piedra/Hueso 5,62:1 y Tinta/Hueso 14,15:1; foco Bronce/Hueso 3,66:1.
 - `npm run build`, `npm test` (4 pruebas) y `git diff --check` correctos; no hay script de lint. La auditoría estática general señala tres asuntos preexistentes en ContactForm (decisión del selector nativo, validación nativa y redimensionado del textarea), ajenos a las tarjetas. No se afirma una auditoría global aprobada ni pruebas en dispositivos físicos.
+
+## DC-045 — Movimiento del cielo en la fotografía de portada
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario en esta conversación: animar el cielo de `Photo1-graveyard.webp` |
+| Sección | Fondo del hero de la portada React |
+
+### Problema y cambio aplicado
+
+El fondo animaba toda la fotografía mediante un acercamiento. Para concentrar el movimiento en el cielo se mantiene estática la fotografía original y se desplaza lentamente una segunda capa de esa misma imagen, limitada al cielo por una máscara SVG de bordes suaves. La capa queda debajo del velo existente. Se conservan los bytes de la imagen, el texto, la composición y el encuadre; no se sustituyen las nubes ni los monumentos. La animación alterna suavemente durante 38 segundos y no se muestra cuando el visitante prefiere movimiento reducido. Esta evolución se aplica únicamente a React, sin alterar el HTML congelado.
+
+### Verificación
+
+- Chrome emulado en 320, 375, 768, 950, 1280, 1440 y 1920 px: imagen y máscara cargadas, fondo base sin movimiento, animación de la capa del cielo activa y sin desbordamiento horizontal. Revisión visual en 375, 768, 1280, 1440 y 1920 px; capturas temporales fuera del repositorio.
+- Movimiento reducido: la capa animada se oculta y permanece visible la imagen original. Cambio a español y visibilidad del título comprobados, sin excepciones JavaScript.
+- Se conserva el velo oscuro sobre el fondo animado y las combinaciones de texto existentes. `npm run build`, `npm test` (4 pruebas) y `git diff --check` correctos. Las pruebas usan Chrome emulado, no dispositivos físicos ni otros motores.
+
+## DC-046 — Verificación antibots preparada para contacto
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado por | Propietario: agregar una verificación para reducir envíos automatizados; informó que aún no dispone de proveedor ni servidor |
+| Sección | Formulario de contacto React |
+
+### Problema y cambio aplicado
+
+El formulario tenía un campo trampa, pero no una verificación adicional; ese campo por sí solo no protege el endpoint. Se preparó una integración de Cloudflare Turnstile antes del botón de envío: ofrece mensajes de carga, error y reintento en EN/ES, renueva el comprobante después de cada intento y adapta el tamaño al ancho disponible. Los mensajes ingresados se conservan ante errores. Mientras no haya clave pública o la verificación falle, el botón de envío permanece deshabilitado y se ofrece recurrir al teléfono o correo. No se modifican los textos existentes ni los recursos del HTML congelado.
+
+El comprobante se incorpora al contrato del adaptador HTTP. También se añadió una función separada, exclusiva para servidor, que verifica el comprobante con Cloudflare y exige coincidencia del dominio autorizado y la acción `contact`; rechaza errores de red, comprobantes inválidos y configuración ausente. **No existe todavía un servidor conectado que use esa función ni un servicio real de recepción de consultas: la protección efectiva y el envío quedan pendientes de configuración.** El servidor futuro debe verificar antes de aceptar o entregar cada mensaje y añadir los límites y validaciones de SEG-006. Las claves reales y la evaluación de privacidad del proveedor siguen pendientes; no se almacena ninguna clave secreta en el cliente.
+
+### Verificación
+
+- Chrome con clave pública oficial de prueba de Cloudflare: comprobación aceptada en 375, 1280, 1440 y 1920 px; la clave se proporcionó solo al servidor local de pruebas. Revisión visual de las cuatro anchuras sin capturas en el repositorio.
+- Integración simulada: ausencia de clave, fallo y reintento, caducidad, dos envíos con comprobantes distintos, error del servidor con conservación del mensaje, éxito simulado, cambio EN/ES y redimensionado de móvil a escritorio. Geometría comprobada en EN/ES a 320, 375, 480, 768, 950, 1280, 1440 y 1920 px sin desbordamiento horizontal.
+- Pruebas unitarias del rechazo de comprobantes ausentes, fallidos, repetidos, de otra acción o dominio, y de fallos de red. Se probaron respuestas simuladas: la validación real de servidor con claves de producción y el endpoint quedan pendientes.
+- Se conservan los colores y estilos del formulario. `npm run build`, `npm test` (11 pruebas) y `git diff --check` correctos; no hay script de lint. Pruebas de navegador con Chrome emulado, sin dispositivos físicos.
+
+## DC-047 — Retirar el acercamiento de la fotografía de portada
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: quitar el efecto de zoom de la fotografía |
+| Sección | Fondo del hero de la portada React |
+
+La animación de acercamiento heredada permanecía declarada en la hoja compartida, aunque DC-045 la desactivaba con una regla posterior. Se retiraron la animación y sus fotogramas de la hoja para que el fondo permanezca fijo sin depender de esa excepción. Se conserva el movimiento independiente del cielo de DC-045 y la preferencia de movimiento reducido; no se modifican el encuadre, la imagen ni el contenido.
+
+**Verificación:** Chrome emulado a 320, 375, 768, 950, 1280, 1440 y 1920 px: la fotografía no tiene animación ni transformación, el cielo conserva su desplazamiento, movimiento reducido detiene la capa, sin desbordamiento ni errores de JavaScript. `npm run build`, `npm test` (11 pruebas) y `git diff --check` correctos.
+
+## DC-048 — Retirar la franja del video de cielo
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: quitar la sección señalada en la captura |
+| Sección | Portada React, entre la introducción y «What matters in our work» |
+
+Se retira de la portada la franja del video de cielo con el texto «Some things deserve to be remembered». La sección de valores sigue inmediatamente a la introducción. Se eliminan la precarga del póster y la lógica del bucle del video, sin borrar los activos originales ni modificar la referencia congelada. La animación del cielo de la fotografía principal es independiente y se conserva.
+
+**Verificación:** Chrome emulado en EN y ES a 320, 375, 768, 1280, 1440 y 1920 px: sección ausente, valores a continuación del hero, video y póster sin solicitudes de red, carrusel funcional y sin desbordamiento ni errores JavaScript. Revisión de la distribución en 375, 1280, 1440 y 1920 px. `npm run build`, `npm test` (11 pruebas) y `git diff --check` correctos. Sin cambio de colores ni tipografías.

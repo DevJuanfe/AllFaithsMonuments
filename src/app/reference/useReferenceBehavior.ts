@@ -93,73 +93,6 @@ export function useReferenceLanguage(language: Language, route = 'home') {
   }, [language, route]);
 }
 
-function setupDualVideoLoop(videoSelector: string, signal: AbortSignal, reducedMotion: MediaQueryList): () => void {
-  const first = document.querySelector<HTMLVideoElement>(videoSelector);
-  if (!first?.parentElement) return () => {};
-  const second = first.cloneNode(false) as HTMLVideoElement;
-  second.removeAttribute('id');
-  second.removeAttribute('autoplay');
-  second.removeAttribute('aria-label');
-  second.setAttribute('aria-hidden', 'true');
-  second.setAttribute('tabindex', '-1');
-  second.muted = true;
-  second.preload = 'auto';
-  first.removeAttribute('loop');
-  second.removeAttribute('loop');
-  first.style.zIndex = '2';
-  second.style.zIndex = '1';
-  second.style.opacity = '0';
-  first.parentElement.appendChild(second);
-  let front = first, back = second, fading = false;
-  const timeouts = new Set<number>();
-  const finish = () => {
-    back.pause();
-    try { back.currentTime = 0; } catch { /* Loading has not completed. */ }
-    back.style.transition = 'none';
-    back.style.opacity = '0';
-    fading = false;
-  };
-  const startFade = () => {
-    if (fading || reducedMotion.matches) return;
-    fading = true;
-    const incoming = back, outgoing = front;
-    try { incoming.currentTime = 0; } catch { /* Loading has not completed. */ }
-    incoming.style.transition = 'none';
-    incoming.style.opacity = '0';
-    incoming.style.zIndex = '2';
-    outgoing.style.zIndex = '1';
-    incoming.play().catch(() => {});
-    void incoming.offsetWidth;
-    incoming.style.transition = 'opacity 1.6s linear';
-    incoming.style.opacity = '1';
-    front = incoming;
-    back = outgoing;
-    const timeout = window.setTimeout(() => { timeouts.delete(timeout); finish(); }, 1680);
-    timeouts.add(timeout);
-  };
-  const interval = window.setInterval(() => {
-    if (front.paused || fading) return;
-    const duration = front.duration;
-    if (duration && Number.isFinite(duration) && duration > 3.2 && front.currentTime >= duration - 1.6) startFade();
-  }, 100);
-  for (const video of [first, second]) {
-    video.addEventListener('ended', () => { if (video === front && !fading) startFade(); }, { signal });
-    video.addEventListener('pause', () => { if (video === front && fading) back.pause(); }, { signal });
-    video.addEventListener('play', () => { if (video === front && fading) back.play().catch(() => {}); }, { signal });
-  }
-  if (reducedMotion.matches) first.pause(); else first.play().catch(() => {});
-  reducedMotion.addEventListener('change', (event) => {
-    if (event.matches) { first.pause(); second.pause(); }
-  }, { signal });
-  return () => {
-    window.clearInterval(interval);
-    timeouts.forEach((timeout) => window.clearTimeout(timeout));
-    first.pause(); second.pause(); second.remove();
-    first.setAttribute('loop', '');
-    first.style.zIndex = '';
-  };
-}
-
 function setupHeroCarousel(signal: AbortSignal, reducedMotion: MediaQueryList): () => void {
   const carousel = document.querySelector<HTMLElement>('#heroShowcase');
   if (!carousel) return () => {};
@@ -398,7 +331,6 @@ export function useReferenceInteractions(
     });
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const cleanupSky = setupDualVideoLoop('#skyVideo', signal, reducedMotion);
     const cleanupCarousel = setupHeroCarousel(signal, reducedMotion);
 
     let revealObserver: IntersectionObserver | undefined;
@@ -457,7 +389,6 @@ export function useReferenceInteractions(
     return () => {
       if (closeTimeout) window.clearTimeout(closeTimeout);
       controller.abort();
-      cleanupSky();
       cleanupCarousel();
       revealObserver?.disconnect();
       timelineResize?.disconnect();

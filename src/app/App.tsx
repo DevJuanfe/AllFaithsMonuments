@@ -13,6 +13,7 @@ import routeManifest from './routeManifest.json';
 import '../features/guidance/presentation/guidance.css';
 import '../shared/ui/responsive.css';
 import '../shared/ui/services.css';
+import '../shared/ui/hero-sky.css';
 
 const galleryRepository = createGalleryRepository();
 const contactGateway = createContactGateway();
@@ -26,6 +27,8 @@ function parserOptions(gateway: ContactGateway): HTMLReactParserOptions {
   return {
     replace(node) {
       if (!(node instanceof Element)) return;
+      // DC-048: omit the former sky film section from the live homepage.
+      if (node.attribs.class === 'sky-section') return <></>;
       // DC-041: the spacing itself invites scrolling through the four steps.
       if (node.attribs.class === 'process-scroll-cue') return <></>;
       if ('data-gallery-count' in node.attribs) return <GalleryCount />;

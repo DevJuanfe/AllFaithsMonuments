@@ -561,9 +561,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   object-position: center 45%;
   z-index: 1;
   filter: saturate(0.95) contrast(1.04);
-  transform-origin: 55% 45%;
-  animation: heroKenBurns 24s ease-in-out infinite alternate;
-  will-change: transform;
 }
 .hero-backdrop-veil {
   position: absolute;
@@ -573,20 +570,6 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
     linear-gradient(90deg, rgba(21, 22, 26, 0.84) 0%, rgba(21, 22, 26, 0.72) 45%, rgba(21, 22, 26, 0.34) 100%),
     linear-gradient(180deg, rgba(21, 22, 26, 0.45) 0%, rgba(21, 22, 26, 0.20) 55%, rgba(21, 22, 26, 0.65) 100%);
 }
-@keyframes heroKenBurns {
-  0% {
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-  100% {
-    transform: scale(1.11) translate3d(-1.8%, -1.2%, 0);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-backdrop-photo {
-    animation: none;
-  }
-}
-
 .hero.hero-cinematic .hero-copy .eyebrow {
   color: var(--sand);
   text-shadow: 0 1px 8px rgba(21, 22, 26, 0.6);

@@ -1,0 +1,27 @@
+/* DC-045: animate only the sky of the existing hero photograph. */
+.hero-cinematic .hero-backdrop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url('/assets/img/Photo1-graveyard.webp');
+  background-size: cover;
+  background-position: center 45%;
+  background-repeat: no-repeat;
+  filter: saturate(.95) contrast(1.04);
+  -webkit-mask: url('/assets/hero-sky-mask.svg') center 45% / cover no-repeat;
+  mask: url('/assets/hero-sky-mask.svg') center 45% / cover no-repeat;
+  animation: hero-cloud-drift 38s ease-in-out infinite alternate;
+}
+
+.hero-cinematic .hero-backdrop-veil { z-index: 3; }
+
+@keyframes hero-cloud-drift {
+  from { background-position: center 45%; }
+  to { background-position: calc(50% - 32px) 45%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cinematic .hero-backdrop::before { display: none; }
+}

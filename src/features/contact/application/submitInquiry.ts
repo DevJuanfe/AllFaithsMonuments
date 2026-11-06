@@ -12,5 +12,6 @@ export async function submitInquiry(
     message: inquiry.message.trim(),
   };
   if (!cleanInquiry.email || !cleanInquiry.message) throw new Error('Email and message are required');
+  if (!cleanInquiry.captchaToken || cleanInquiry.captchaToken.length > 2048) throw new Error('Verification is required');
   await gateway.send(cleanInquiry, signal);
 }
