@@ -12,6 +12,7 @@ import { useReferenceInteractions, useReferenceLanguage } from './reference/useR
 import routeManifest from './routeManifest.json';
 import '../features/guidance/presentation/guidance.css';
 import '../shared/ui/responsive.css';
+import '../shared/ui/services.css';
 
 const galleryRepository = createGalleryRepository();
 const contactGateway = createContactGateway();

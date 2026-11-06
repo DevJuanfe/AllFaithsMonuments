@@ -989,3 +989,25 @@ En hasta 660 px se apilan el video y su texto, el encabezado de servicios y los 
 - Escritorio a 1280 × 900, 1440 × 900 y 1920 × 1080: sin desbordamiento y geometría del panel de guía conservada. Probados movimiento reducido y teclado; ninguna excepción JavaScript detectada.
 - Contrastes de las combinaciones usadas: Piedra/Arena 4,92:1, Piedra/Hueso 5,62:1, Bronce/Granito 4,58:1 y Tinta/Arena 12,39:1. `npm run build`, `npm test` (4 pruebas) y `git diff --check` sin errores.
 - La auditoría estática adicional de frontend mantiene dos observaciones anteriores en el formulario de contacto sobre la estrategia de validación nativa y el redimensionado del campo; no forman parte de este ajuste visual. Las pruebas de tamaño usan emulación de Chrome, no dispositivos físicos ni otros motores.
+## DC-044 — Tarjetas de servicios abiertas y fotografías a sangre
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario en esta conversación: modernizar los tres cuadros de la captura, integrarlos con la página y hacer que las mismas imágenes llenen su espacio sin sobrantes |
+| Sección | Las tres tarjetas de servicios de la portada React |
+
+### Problema y cambio aplicado
+
+Las fotografías usaban `object-fit: contain` en marcos de otras proporciones, dejando franjas Arena y Piedra. El borde perimetral y el relleno de las tarjetas secundarias acentuaban el aspecto de cajas cerradas.
+
+Se conservan la composición asimétrica (una pieza principal y dos secundarias), las tres fotografías originales sin modificar sus archivos, los textos EN/ES y los destinos de los enlaces. Las fotos llenan sus marcos mediante `cover`, con recorte centrado del entorno en las secundarias; la principal reserva una proporción 3:2 para conservar la figura completa. Desaparecen los bordes perimetrales y los paneles de color, y las descripciones se integran en el fondo Hueso. Se ajustan separación, jerarquía serif y lectura del cuerpo; los enlaces mantienen el subrayado y tienen 44 px de altura para facilitar el uso táctil, sin desplazarse al pasar el puntero.
+
+Hasta 950 px, la pieza principal precede a las secundarias en una columna. Hasta 480 px, cada fotografía queda encima de su descripción. Los marcos reservan su espacio antes de cargar las imágenes. Los estilos están acotados a `.services` en `src/shared/ui/services.css`, fuera de los archivos generados; esta evolución posterior a la migración no modifica la referencia congelada.
+
+### Verificación
+
+- Chrome: 20 combinaciones EN/ES y anchos 320, 375, 480, 660, 768, 950, 1024, 1280, 1440 y 1920 px. Sin desbordamiento horizontal, solapamiento entre foto y texto ni recorte horizontal del texto. Las tres imágenes cargan y ocupan las dimensiones completas del marco.
+- Revisión visual a 1280 × 900, 1440 × 900 y 1920 × 1080; además, teléfono de 375 px y tableta de 768 px. Capturas temporales fuera del repositorio. Se mantienen Cormorant Garamond, Lato y los tokens institucionales.
+- EN/ES, destinos Gallery/Contact, navegación por Tab y Enter y preferencia de movimiento reducido comprobados; ninguna excepción JavaScript. Contraste Piedra/Hueso 5,62:1 y Tinta/Hueso 14,15:1; foco Bronce/Hueso 3,66:1.
+- `npm run build`, `npm test` (4 pruebas) y `git diff --check` correctos; no hay script de lint. La auditoría estática general señala tres asuntos preexistentes en ContactForm (decisión del selector nativo, validación nativa y redimensionado del textarea), ajenos a las tarjetas. No se afirma una auditoría global aprobada ni pruebas en dispositivos físicos.
