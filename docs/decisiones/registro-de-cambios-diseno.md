@@ -1074,3 +1074,92 @@ La animación de acercamiento heredada permanecía declarada en la hoja comparti
 Se retira de la portada la franja del video de cielo con el texto «Some things deserve to be remembered». La sección de valores sigue inmediatamente a la introducción. Se eliminan la precarga del póster y la lógica del bucle del video, sin borrar los activos originales ni modificar la referencia congelada. La animación del cielo de la fotografía principal es independiente y se conserva.
 
 **Verificación:** Chrome emulado en EN y ES a 320, 375, 768, 1280, 1440 y 1920 px: sección ausente, valores a continuación del hero, video y póster sin solicitudes de red, carrusel funcional y sin desbordamiento ni errores JavaScript. Revisión de la distribución en 375, 1280, 1440 y 1920 px. `npm run build`, `npm test` (11 pruebas) y `git diff --check` correctos. Sin cambio de colores ni tipografías.
+
+## DC-049 — Cielo en movimiento al atardecer y máscara del follaje
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: hacer visible el movimiento del cielo y de la luz, con ambiente de atardecer y paz; durante la revisión pidió retirar el exceso de sepia y ajustar la máscara a las ramas |
+| Sección | Fondo del hero de la portada React |
+
+### Problema y antes/después
+
+La animación anterior desplazaba una copia de la fotografía 32 px en 38 segundos bajo un velo oscuro; el movimiento resultaba poco perceptible. La máscara geométrica de bordes desenfocados tampoco seguía el follaje con suficiente precisión.
+
+Se incorpora `HeroBackdrop` al parser de la portada. La fotografía original permanece fija y conserva sus bytes; el encuadre vertical pasa de 45 % a 24 % para mostrar más cielo. El video y póster de atardecer ya existentes se reutilizan exclusivamente dentro del cielo. Dos capas alternan mediante un fundido, a velocidad 0,7, sin mover árboles ni monumentos. Un resplandor tenue y rayos difusos se desplazan lentamente. El velo protege la columna de lectura y permite más luz en el resto del paisaje. La franja independiente retirada en DC-048 continúa ausente.
+
+Tras la corrección solicitada por el propietario se elimina el filtro sepia del paisaje: conserva sus verdes, con saturación 0,94, brillo 0,96 y contraste 0,98. El cielo se desatura parcialmente y se ilumina; las luces utilizan Hueso y Arena, sin alterar colores de interfaz ni fotografías del carrusel.
+
+La máscara SVG se extrae a resolución nativa de los píxeles del cielo, con transparencia gradual en las transiciones y conservación de ramas y huecos entre hojas. Sustituye el polígono desenfocado. `scripts/generate-hero-sky-mask.mjs` permite reproducirla y deja el SHA-256 de la foto fuente en el SVG; no modifica la fotografía ni genera nuevos monumentos.
+
+Se ofrece una pausa discreta con etiqueta EN/ES. La reproducción se detiene fuera de pantalla y en pestañas ocultas. Con movimiento reducido no se solicita el video ni se animan las luces; si el video falla o se bloquea la reproducción, permanece el póster dentro del cielo. No se añaden proveedores, dependencias ni medios remotos.
+
+### Verificación
+
+- Edge/Chromium local: revisión visual en 375, 1280, 1440 y 1920 px, sin desbordamiento horizontal; fotografía sin transformación. Capturas examinadas en memoria, sin guardarlas en el repositorio.
+- Dos transiciones de bucle comprobadas, incluyendo opacidad intermedia y relevo de la capa activa. Pausa y reanudación por teclado, etiquetas EN/ES, detención fuera de pantalla y desmontaje/recreación al navegar entre Home y Our Story, sin excepciones JavaScript.
+- Movimiento reducido: cero elementos de video y cero solicitudes del MP4. Fallo de carga y bloqueo de autoplay simulados: póster estático visible y animación detenida.
+- Muestreo de contraste sobre el fondo renderizado en 1280, 1440 y 1920 px: mínimo observado de 6,27:1 para los textos de la columna de lectura. Es una comprobación de estados muestreados, no una auditoría integral de todos los fotogramas o del sitio.
+- `npm run build`, `npm test` (11 pruebas) y `git diff --check` correctos. Sin script de lint. La auditoría estática de frontend vuelve a señalar los tres asuntos preexistentes de ContactForm (selector nativo, validación nativa y redimensionado del textarea), fuera del alcance de este fondo. No se declara aprobada una auditoría global ni cobertura de dispositivos físicos o motores distintos de Chromium.
+
+## DC-050 — Neutralizar el borde azul del cielo de portada
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: aplicar un filtro de color que disimule el borde azul de los árboles y lo integre con el cielo del video |
+| Sección | Fondo del hero de la portada React |
+
+El cielo original deja píxeles azulados en los bordes de hojas y ramas, visibles al sustituirlo por el video cálido. Se añadió una capa de la misma fotografía con desaturación y un matiz cálido, limitada mediante una segunda máscara SVG a una franja de hasta tres píxeles de la imagen original alrededor de la transición. La corrección se aplica debajo del cielo y no cambia los colores del resto de la fotografía ni del carrusel. El generador de máscaras existente produce también esta máscara de borde a partir de la fotografía y la máscara de cielo; registra el hash de la fuente y no altera la imagen original.
+
+**Verificación:** comparación visual del contorno antes y después en Edge/Chromium; revisión de la portada en 1280, 1440 y 1920 px, sin desbordamiento ni errores JavaScript. La reproducción del video avanza; con movimiento reducido el video permanece detenido y la corrección del borde sigue activa. Muestreo del contraste de los textos sobre el fondo en los tres tamaños: mínimo observado de 6,12:1; no equivale a medir todos los fotogramas. `npm run build` y `npm test` (11 pruebas) correctos. No se probaron dispositivos físicos ni motores distintos de Chromium.
+
+## DC-051 — Atardecer re-iluminando la fotografía, sin recorte de cielo
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: acercar el hero al atardecer de referencia (luz dorada, cambios de luz como un video) y eliminar los bordes alrededor de los árboles; aprobó el plan en la conversación |
+| Sección | Fondo del hero de la portada React |
+| Sustituye | El enfoque de DC-049 (video de nubes sobre un cielo recortado) y el parche de DC-050 |
+
+**Problema:** el recorte del cielo con una máscara SVG de 16 niveles dejaba píxeles semitransparentes entre las hojas; el cielo azul original asomaba junto a las nubes oscuras del video y formaba halos alrededor de los árboles. La franja desaturada de DC-050 añadía un contorno gris.
+
+**Antes:** fotografía con el cielo recortado, dos capas del video `sky-film.mp4` encadenadas con JavaScript y una franja de corrección en el borde.
+
+**Después:** la fotografía queda completa y se ilumina con capas CSS: tinte de color de cielo cálido (modo `color`, conserva las nubes y la luminancia de la foto) limitado por una máscara de cielo difuminada (`hero-sky-mask.webp`, generada por `scripts/generate-hero-sky-mask.mjs`), velo de anochecer (`soft-light`), luz rasante dorada sobre el pasto y sombra fría opuesta, brillo del sol entre los árboles y rayos suaves. Un ciclo de 48 s alterna entre hora dorada y anochecer. Como la máscara solo controla color y luz, los bordes se leen como luz que atraviesa el follaje. El hero ya no carga el video (el archivo se mantiene para la franja del cielo). El botón de pausa detiene todas las capas; con movimiento reducido queda un fotograma fijo de hora dorada. Se eliminan `hero-sky-mask.svg` y `hero-sky-edge-mask.svg`. No se alteran la fotografía, la tarjeta ni el texto.
+
+**Verificación:** Edge/Chromium con las animaciones fijadas al inicio y al final del ciclo en 1280, 1440 y 1920 px y a 400 px; sin halos visibles ni desbordamiento horizontal. Contraste muestreado (percentil 98 del fondo más claro bajo cada texto, fotograma más luminoso): titular 4,30:1 (texto grande, umbral 3:1), etiqueta superior 5,17:1, párrafo 7,35:1, línea «Since 1975» 7,38:1. Es un muestreo, no la medición de todos los fotogramas. `npm run build` y `npm test` (11 pruebas) correctos. No se probaron dispositivos físicos ni motores distintos de Chromium.
+
+## DC-052 — Nubes en movimiento mezcladas sobre el cielo de portada
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: que el cielo del hero se mueva; aprobó el plan en la conversación |
+| Sección | Fondo del hero de la portada React |
+
+**Problema:** tras DC-051 el atardecer cambiaba de luz pero el cielo estaba quieto.
+
+**Antes:** cielo de la fotografía teñido, sin movimiento propio.
+
+**Después:** el video existente `sky-film.mp4` (timelapse de atardecer, ~10 s; póster `sky-poster.jpg` como respaldo) se **mezcla** sobre el cielo de la foto en modo `overlay`, sin taparlo, limitado por la máscara suave de DC-051 y desvanecido hacia la columna de texto. Dos capas del mismo video se encadenan con un fundido de 1,8 s (velocidad 0,7) para que el bucle no tenga corte, y la capa deriva en horizontal (±6 % en 45 s, ida y vuelta) para que el movimiento continúe más allá del bucle. Como el cielo original sigue debajo, el borde de las hojas solo gana o pierde algo de luz y no reaparecen los halos de DC-049. El botón de pausa, el hero fuera de pantalla o la pestaña oculta detienen el video y la deriva; con movimiento reducido el video no se monta. Si el video falla, queda el póster con la deriva. Sin controles ni leyenda (DC-032).
+
+**Verificación:** Edge/Chromium en 1280, 1440, 1920 y 400 px, con dos fotogramas del video y dos posiciones de la deriva: el cielo cambia, sin halos alrededor de los árboles, sin desbordamiento horizontal; los dos videos cargan (duración 10,0 s). Contraste medido sobre el área real de las letras (percentil 98 del fondo más claro), al inicio y al final del ciclo: mínimo 7,31:1 («Since 1975», 1280 px); etiqueta superior ≥ 10,17:1; titular ≥ 9,08:1. Corrige el método de DC-051, que medía la caja completa de cada bloque (incluido cielo sin texto) y daba valores más bajos que los reales. Es un muestreo, no la medición de todos los fotogramas. `npm run build` y `npm test` (11 pruebas) correctos. La advertencia de consola `fetchpriority` ya existía y viene del HTML de referencia parseado, no de este componente. No se probaron dispositivos físicos ni motores distintos de Chromium.
+
+## DC-053 — Atardecer de portada más visible
+
+| Campo | Detalle |
+|---|---|
+| Fecha | 6 de noviembre de 2026 |
+| Solicitado y aprobado por | Propietario: «Haz más vistosa la animación, es muy sutil» |
+| Sección | Fondo del hero de la portada React |
+
+**Problema:** con DC-051 y DC-052 el movimiento del cielo y los cambios de luz apenas se percibían.
+
+**Antes:** ciclo de luz de 48 s con poco recorrido; nubes del video en `overlay` al 85 %, con deriva de ±6 % en 45 s y velocidad 0,7; rayos tenues que giraban ±4°.
+
+**Después:** ciclo de 20 s que llega a un anochecer más profundo (foto hasta brillo 0,66, tinte del cielo girado −38°, velo de anochecer al 100 %); nubes en `hard-light` al 72 %, con más contraste, deriva de ±11 % en 26 s y video a velocidad normal; sol que baja y se apaga con más recorrido; rayos el doble de intensos que giran ±9° cada 11 s. Nueva capa: dos sombras de nubes suaves (`multiply`) que cruzan el pasto y las lápidas cada 17 y 22 s. La pausa y el movimiento reducido cubren también la nueva capa; con movimiento reducido las sombras quedan fuera de la imagen.
+
+**Verificación:** secuencia real de 18 s en Edge/Chromium a 1440 px: el cielo pasa visiblemente de dorado a rojizo/violeta y el fundido entre las dos capas del video funciona. Sin desbordamiento horizontal en 1280, 1440, 1920 y 400 px. Contraste sobre el área de las letras en tres puntos del ciclo (0, 7 y 20 s) y tres anchos: mínimo 8,31:1. `npm run build` y `npm test` (11 pruebas) correctos. No se probaron dispositivos físicos ni motores distintos de Chromium.

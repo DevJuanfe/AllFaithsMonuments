@@ -14,6 +14,7 @@ import '../features/guidance/presentation/guidance.css';
 import '../shared/ui/responsive.css';
 import '../shared/ui/services.css';
 import '../shared/ui/hero-sky.css';
+import { HeroBackdrop } from '../shared/ui/HeroBackdrop';
 
 const galleryRepository = createGalleryRepository();
 const contactGateway = createContactGateway();
@@ -27,6 +28,7 @@ function parserOptions(gateway: ContactGateway): HTMLReactParserOptions {
   return {
     replace(node) {
       if (!(node instanceof Element)) return;
+      if (node.attribs.class === 'hero-backdrop') return <HeroBackdrop />;
       // DC-048: omit the former sky film section from the live homepage.
       if (node.attribs.class === 'sky-section') return <></>;
       // DC-041: the spacing itself invites scrolling through the four steps.
