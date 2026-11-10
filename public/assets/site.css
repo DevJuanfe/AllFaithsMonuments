@@ -1416,3 +1416,374 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
     align-items: flex-start;
   }
 }
+
+
+/* ───────────────────────────────────────────────────────────────────────
+   BRAND MANUAL HEADER (LUMINOUS BONE #FAF6ED) & FOOTER (GRANITE #15161A)
+   Ref: Manual de Identidad Corporativa p. 13, 16, 18, 19, 23 y 25
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* 1. Encabezado luminoso en Hueso (#FAF6ED) / Blanco cálido (menos cremita, p. 16 y 25) */
+.utility {
+  background: var(--bone);
+  border-bottom: 1px solid rgba(40, 37, 32, 0.09);
+}
+.site-header {
+  background: rgba(250, 246, 237, 0.98) !important;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  color: var(--ink) !important;
+  border-bottom: 1px solid rgba(40, 37, 32, 0.11) !important;
+  box-shadow: 0 4px 20px -10px rgba(21, 22, 26, 0.06);
+}
+@media (max-width: 950px) {
+  .site-header .nav {
+    background: var(--bone) !important;
+    border-bottom: 1px solid rgba(40, 37, 32, 0.12);
+  }
+}
+
+/* Submenú y controles sobre el encabezado luminoso */
+@media (min-width: 951px) {
+  .site-header .nav-submenu {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(40, 37, 32, 0.12) !important;
+    box-shadow: 0 22px 48px -12px rgba(21, 22, 26, 0.14) !important;
+  }
+  .site-header .nav .nav-submenu a.submenu-item:hover,
+  .site-header .nav .nav-submenu a.submenu-item:focus-visible {
+    background: var(--bone) !important;
+  }
+  .site-header .nav .nav-submenu a.submenu-item[aria-current="page"] {
+    background: var(--bone) !important;
+    box-shadow: inset 3px 0 0 var(--bronze) !important;
+  }
+  .site-header .nav .nav-cta {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(40, 37, 32, 0.20) !important;
+    color: var(--ink) !important;
+  }
+  .site-header .nav .nav-cta:hover,
+  .site-header .nav .nav-cta:focus-visible {
+    background: var(--ink) !important;
+    border-color: var(--ink) !important;
+    color: var(--bone) !important;
+  }
+}
+
+.site-header .lang-seg {
+  background: rgba(40, 37, 32, 0.045) !important;
+  border: 1px solid rgba(40, 37, 32, 0.14) !important;
+}
+.site-header .lang-seg button[aria-pressed="true"] {
+  background: #FFFFFF !important;
+  color: var(--ink) !important;
+  box-shadow: 0 1px 4px rgba(21, 22, 26, 0.10) !important;
+}
+
+/* 2. Footer oscuro en Granito Negro (#15161A) con Logo en Negativo y acentos en Bronce (p. 13, 16, 18, 19 y 23) */
+.footer {
+  background: var(--granite) !important;
+  color: var(--bone) !important;
+  border-top: 2px solid var(--bronze) !important;
+  padding: 88px 0 34px;
+}
+.footer-brand img {
+  width: 360px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+.footer-links h4 {
+  color: var(--bronze) !important;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  margin: 0 0 16px;
+  font-weight: 700;
+}
+.footer-links a,
+.footer-links span {
+  color: var(--bone) !important;
+  font-size: 14px;
+  padding: 7px 0;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+.footer-links a:hover,
+.footer-links a:focus-visible {
+  color: var(--sand) !important;
+  text-decoration: underline;
+  text-decoration-color: var(--bronze) !important;
+  text-underline-offset: 5px;
+}
+.footer-bottom {
+  border-top: 1px solid rgba(250, 246, 237, 0.16) !important;
+  color: var(--linen) !important;
+  padding-top: 26px;
+  font-size: 12px;
+}
+
+
+/* ───────────────────────────────────────────────────────────────────────
+   VISUAL POLISH — SUBTLE ARCHITECTURAL ROUNDED CORNERS, INDEXED HOURS & AREA BADGES
+   ─────────────────────────────────────────────────────────────────────── */
+:root {
+  --radius-card: 10px;   /* Subtle, dignified stone-bevel rounding for cards & frames */
+  --radius-media: 8px;   /* Inner photographs, map frames & stages */
+  --radius-ui: 6px;      /* Buttons, form fields, swatches & badges */
+}
+
+/* 1. Subtle Corner Rounding Across All Cards, Boxes, Photos & Controls */
+.service-card,
+.faith-card,
+.granite-mineral-card,
+.hero-showcase,
+.engraving-studio,
+.contact-form,
+.location-map-card,
+.photo-viewer,
+.gallery-empty-state,
+.about-mark,
+.story-brand {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.hero-photo,
+.hero-photo::after,
+.hero-art::before,
+.hero-showcase-stage,
+.collection-card .collection-open,
+.gallery-figure,
+.about-photo .photo-placeholder,
+.about-photo img,
+.sample-stage,
+.location-map-frame-wrap,
+.viewer-stage {
+  border-radius: var(--radius-media);
+  overflow: hidden;
+}
+
+.btn,
+.form-field input,
+.form-field textarea,
+.form-select,
+.studio-field input,
+.swatch,
+.swatch-chip,
+.collection-zoom,
+.photo-viewer button,
+.inquiry-context-banner,
+#formStatus {
+  border-radius: var(--radius-ui);
+}
+
+/* 2. Indexed Workshop Hours Schedule (Day on left, Hours aligned on right) */
+.hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 6px;
+  max-width: 390px;
+}
+.hours-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 12px;
+  background: var(--sand);
+  border: 1px solid rgba(40, 37, 32, 0.10);
+  border-radius: var(--radius-ui);
+  font-size: 14px;
+  line-height: 1.4;
+}
+.contact .hours-row {
+  background: var(--bone);
+}
+.hours-day {
+  font-weight: 700;
+  color: var(--ink);
+}
+.hours-time {
+  font-weight: 500;
+  color: var(--stone);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 3. Service Areas Visual Badges (Queens, Brooklyn, Manhattan, Bronx, Staten Island, Long Island) */
+.area-badges {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.area-badges li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  background: var(--sand);
+  border: 1px solid rgba(40, 37, 32, 0.14);
+  border-radius: var(--radius-ui);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+.area-badges li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bronze);
+  flex-shrink: 0;
+}
+
+@media (max-width: 420px) {
+  .hours-row {
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 10px;
+  }
+}
+
+
+/* ───────────────────────────────────────────────────────────────────────
+   FULL-BLEED CARD IMAGES (OBJECT-FIT COVER) & COMPACT CARDS WITH LIGHTBOX DETAILS
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* 1. Eliminate empty sidebars: all card, hero, and showcase images fill 100% of their frame */
+.faith-card {
+  grid-template-rows: 320px auto !important;
+}
+.faith-card-media,
+.card-pic,
+.hero-photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--granite);
+}
+.faith-card-media img,
+.card-pic img,
+.hero-photo img,
+.hero-photo img[src*="/monumentos/"],
+.about-photo img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 28% !important;
+  padding: 0 !important;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-slide img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center 26% !important;
+  padding: 0 !important;
+  transition: transform 0.65s ease;
+}
+
+/* Subtle zoom on hover + "↗" enlarge indicator badge on card photos */
+.faith-card:hover .faith-card-media img,
+.service-card:hover .card-pic img,
+.hero-slide:hover img {
+  transform: scale(1.04);
+}
+.faith-card-media::after,
+.service-card .card-pic::after {
+  content: '↗';
+  position: absolute !important;
+  left: auto !important;
+  top: auto !important;
+  right: 12px;
+  bottom: 12px;
+  width: 34px !important;
+  height: 34px !important;
+  transform: none !important;
+  border-radius: var(--radius-ui, 6px);
+  background: rgba(250, 246, 237, 0.92) !important;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 4px 12px rgba(21, 22, 26, 0.22);
+  pointer-events: none;
+  z-index: 3;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.faith-card:hover .faith-card-media::after,
+.service-card:hover .card-pic::after {
+  background: var(--ink) !important;
+  color: var(--bone);
+}
+
+/* 2. Compact, cleaner card body: hide long paragraph descriptions on the card (shown when image is enlarged in Lightbox) */
+.faith-card-body {
+  padding: 22px 26px 24px !important;
+  gap: 8px !important;
+}
+.faith-card-body p,
+.service-card .card-info p {
+  display: none !important;
+}
+.faith-card-body h2,
+.faith-card-body h3 {
+  font-size: clamp(23px, 2.1vw, 28px) !important;
+  margin: 0 0 6px !important;
+}
+.service-card .card-info {
+  padding: 24px 28px !important;
+  gap: 10px !important;
+}
+.service-card:first-child .card-pic {
+  min-height: 380px !important;
+}
+
+/* 3. Lightbox Modal for Enlarged Card Image + Full Description Text */
+.card-lightbox-modal {
+  max-width: 980px !important;
+  border-radius: var(--radius-card, 10px);
+}
+.card-lightbox-modal #cardLightboxKicker {
+  display: block;
+  color: var(--bronze);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+.card-lightbox-stage {
+  background: var(--granite) !important;
+  border-radius: var(--radius-media, 8px);
+  overflow: hidden;
+  padding: 12px;
+}
+.card-lightbox-stage .viewer-image {
+  height: min(62dvh, 560px) !important;
+  object-fit: contain !important;
+}
+.card-lightbox-details {
+  padding: 18px 6px 4px;
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+}
+.card-lightbox-details p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  max-width: 780px;
+}
+
+@media (max-width: 950px) {
+  .faith-card {
+    grid-template-rows: 260px auto !important;
+  }
+}

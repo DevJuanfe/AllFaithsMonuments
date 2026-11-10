@@ -104,7 +104,7 @@ export function HeroBackdrop() {
 
   return <>
     <div ref={backdrop} className="hero-backdrop hero-sunset" data-moving={moving} aria-hidden="true">
-      <img className="hero-backdrop-photo" src="/assets/img/Photo1-graveyard.webp" alt="" width="1600" height="1066" fetchPriority="high" />
+      <img className="hero-backdrop-photo" src="/assets/img/Photo1-graveyard.webp" alt="" width="1600" height="1066" fetchPriority="high" decoding="async" />
       <div className="hero-sunset-tint" />
       <div className="hero-sunset-clouds">
         <div className="hero-sunset-drift">

@@ -63,3 +63,259 @@
   .engraving-studio { padding: 22px 18px; }
   .footer-bottom { font-size: 12px; line-height: 1.5; }
 }
+
+
+/* ───────────────────────────────────────────────────────────────────────
+   STEP 3 — CORE WEB VITALS (CLS=0), WCAG 2.2 AA CONTRAST & 320px-1920px RESPONSIVE
+   ─────────────────────────────────────────────────────────────────────── */
+
+/* 1. Metric-compatible font fallbacks & global overflow prevention (RNF-001, RNF-003, RNF-009) */
+@font-face {
+  font-family: 'Cormorant Fallback';
+  src: local('Georgia'), local('Times New Roman');
+  size-adjust: 106%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Lato Fallback';
+  src: local('Arial'), local('Helvetica Neue'), local('Segoe UI');
+  size-adjust: 99.2%;
+  ascent-override: 98%;
+  descent-override: 21%;
+  line-gap-override: 0%;
+}
+:root {
+  --serif: 'Cormorant Garamond', 'Cormorant Fallback', 'EB Garamond', Georgia, serif;
+  --sans: Lato, 'Lato Fallback', Arial, sans-serif;
+}
+html, body {
+  overflow-x: clip;
+  max-width: 100%;
+}
+img, video, iframe {
+  max-width: 100%;
+}
+.hero-photo img,
+.faith-card-media img,
+.collection-open img,
+.about-photo img {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+/* 2. WCAG 2.2 AA Contrast & Keyboard Focus Compliance (RNF-004, RNF-005, RNF-006)
+   Small text (< 18.66px bold or < 24px regular) on light surfaces (--bone #FAF6ED / --sand #EFE7D4)
+   must use --ink (#282520, 12.2:1+) or --stone (#6B6155, 4.85:1+), keeping --bronze (#9A7B4F)
+   for underlines, borders, icons, large headings, or dark surfaces (--granite #15161A, 4.58:1). */
+.collection-inquire-link,
+.gallery-filter-reset,
+.inquiry-context-text small,
+.hero-showcase-counter {
+  color: var(--ink) !important;
+  text-decoration-color: var(--bronze) !important;
+}
+.collection-inquire-link:hover,
+.gallery-filter-reset:hover {
+  color: var(--stone) !important;
+}
+.eyebrow,
+.card-label,
+.photo-label,
+.image-label,
+.hero-showcase-kicker {
+  color: var(--stone);
+}
+.story .eyebrow,
+.sky-panel .eyebrow,
+.about-hero .eyebrow,
+.about-principles .eyebrow {
+  color: var(--bronze); /* 4.58:1 on --granite (#15161A) passes WCAG 2.2 AA */
+}
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--bronze);
+  outline-offset: 3px;
+}
+.story a:focus-visible,
+.sky-section a:focus-visible,
+.about-hero a:focus-visible,
+.hero.hero-cinematic a:focus-visible,
+.hero.hero-cinematic button:focus-visible {
+  outline: 3px solid var(--bone);
+  box-shadow: 0 0 0 5px var(--bronze);
+}
+
+/* 3. Intermediate Desktop & Landscape Tablet Breakpoint (951px – 1200px) */
+@media (min-width: 951px) and (max-width: 1200px) {
+  .wrap {
+    width: calc(100% - 56px);
+  }
+  .header-inner {
+    gap: 14px;
+  }
+  .brand .brand-full {
+    height: 64px;
+    margin-left: 0;
+  }
+  .site-header .nav {
+    gap: 16px;
+  }
+  .site-header .nav > a:not(.nav-cta),
+  .site-header .nav .nav-group-toggle {
+    font-size: 13.5px;
+  }
+  .site-header .nav .nav-cta {
+    padding: 7px 14px;
+    font-size: 12.5px;
+  }
+  .hero-grid,
+  .contact-grid,
+  .granite-grid,
+  .location-grid,
+  .about-hero-grid,
+  .about-principles-grid,
+  .about-since-grid {
+    gap: 36px;
+  }
+}
+
+/* 4. Tablet & Mobile Navigation and Touch Targets (<= 950px, WCAG 2.5.8 Target Size) */
+@media (max-width: 950px) {
+  .gallery-filter-chip,
+  .faith-filter-btn,
+  .gallery-filter-reset {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .hero-slide-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .collection-inquire-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .hero.hero-cinematic {
+    padding: 28px 0 36px;
+  }
+  .hero.hero-cinematic .hero-grid {
+    gap: 28px;
+  }
+}
+
+/* 5. Small Mobile Devices & 320px Viewport Compliance (<= 420px, RNF-003 & AT-06) */
+@media (max-width: 420px) {
+  .wrap,
+  .values .wrap {
+    width: calc(100% - 28px);
+  }
+  .utility {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+  }
+  .header-inner {
+    height: 68px;
+    gap: 10px;
+  }
+  .brand img {
+    width: 44px;
+  }
+  .site-header .lang-seg button {
+    min-width: 36px;
+    height: 34px;
+    padding: 0 8px;
+    font-size: 11px;
+  }
+  .hero h1,
+  .hero.hero-cinematic h1 {
+    font-size: clamp(36px, 11vw, 48px);
+    line-height: 0.96;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .section-title,
+  .about-hero .section-title,
+  .gallery-collection .gallery-heading .section-title {
+    font-size: clamp(32px, 10vw, 42px);
+    line-height: 1.04;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .hero-actions,
+  .location-actions,
+  .gallery-empty-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-actions .btn,
+  .location-actions .btn,
+  .gallery-empty-actions .btn {
+    width: 100%;
+  }
+  .hero-showcase {
+    padding: 14px 12px;
+  }
+  .hero-showcase-stage {
+    height: 250px;
+  }
+  .hero-showcase-bar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .contact-form {
+    padding: 22px 16px;
+    box-shadow: 8px 8px 0 rgba(204, 197, 181, 0.35);
+  }
+  .location-map-card {
+    padding: 12px;
+    box-shadow: 8px 8px 0 rgba(204, 197, 181, 0.32);
+  }
+  .location-map-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .location-map-frame-wrap {
+    height: 260px;
+  }
+  .contact-fab,
+  .contact-fab.is-hidden {
+    right: 12px;
+    bottom: 12px;
+    max-width: calc(100vw - 24px);
+    padding: 7px 14px 7px 8px;
+    gap: 8px;
+  }
+  .contact-fab-sub {
+    display: none;
+  }
+  .footer {
+    padding-bottom: 76px;
+  }
+}
+
+/* 6. Wide Desktop (1920px+) Balanced Editorial Proportions */
+@media (min-width: 1680px) {
+  .hero.hero-cinematic {
+    padding: 52px 0 64px;
+  }
+  .hero-showcase-stage {
+    height: 430px;
+  }
+}
+
+/* 7. Reduced Motion Accessibility (RNF-008) */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

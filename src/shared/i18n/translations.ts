@@ -431,3 +431,21 @@ Object.assign(translations.es, {
   stone6Origin: 'Piedra clara luminosa · Tallado profundo con sombra definida',
   stoneInquireLink: 'Consultar por este granito →',
 });
+
+// --- VISUAL POLISH TRANSLATIONS ---
+
+Object.assign(translations.en, {
+  locHoursLabel: 'WORKSHOP HOURS',
+  locHoursHtml: '<div class="hours-list"><div class="hours-row"><span class="hours-day">Monday – Thursday</span><span class="hours-time">10:00 am – 5:00 pm</span></div><div class="hours-row"><span class="hours-day">Friday – Saturday</span><span class="hours-time">10:00 am – 3:00 pm</span></div><div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">10:00 am – 2:00 pm</span></div></div>',
+  hoursValue: '<div class="hours-list"><div class="hours-row"><span class="hours-day">Monday – Thursday</span><span class="hours-time">10:00 am – 5:00 pm</span></div><div class="hours-row"><span class="hours-day">Friday – Saturday</span><span class="hours-time">10:00 am – 3:00 pm</span></div><div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">10:00 am – 2:00 pm</span></div></div>',
+  locServiceAreaLabel: 'AREAS WE SERVE IN NEW YORK',
+  locServiceAreaHtml: '<ul class="area-badges" aria-label="Areas we serve"><li>Queens</li><li>Brooklyn</li><li>Manhattan</li><li>The Bronx</li><li>Staten Island</li><li>Long Island (Nassau &amp; Suffolk)</li></ul>',
+});
+
+Object.assign(translations.es, {
+  locHoursLabel: 'HORARIO DE ATENCIÓN',
+  locHoursHtml: '<div class="hours-list"><div class="hours-row"><span class="hours-day">Lunes a jueves</span><span class="hours-time">10:00 am – 5:00 pm</span></div><div class="hours-row"><span class="hours-day">Viernes y sábado</span><span class="hours-time">10:00 am – 3:00 pm</span></div><div class="hours-row"><span class="hours-day">Domingo</span><span class="hours-time">10:00 am – 2:00 pm</span></div></div>',
+  hoursValue: '<div class="hours-list"><div class="hours-row"><span class="hours-day">Lunes a jueves</span><span class="hours-time">10:00 am – 5:00 pm</span></div><div class="hours-row"><span class="hours-day">Viernes y sábado</span><span class="hours-time">10:00 am – 3:00 pm</span></div><div class="hours-row"><span class="hours-day">Domingo</span><span class="hours-time">10:00 am – 2:00 pm</span></div></div>',
+  locServiceAreaLabel: 'ZONAS QUE ATENDEMOS EN NUEVA YORK',
+  locServiceAreaHtml: '<ul class="area-badges" aria-label="Zonas que atendemos"><li>Queens</li><li>Brooklyn</li><li>Manhattan</li><li>El Bronx</li><li>Staten Island</li><li>Long Island (Nassau y Suffolk)</li></ul>',
+});

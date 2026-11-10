@@ -330,6 +330,103 @@ export function useReferenceInteractions(
       }, { signal });
     });
 
+    
+    // Universal Card Image Lightbox (shows full image + full description text on click)
+    let cardModal = document.querySelector<HTMLDialogElement>('#cardPhotoLightbox');
+    if (!cardModal) {
+      cardModal = document.createElement('dialog');
+      cardModal.id = 'cardPhotoLightbox';
+      cardModal.className = 'photo-viewer card-lightbox-modal';
+      cardModal.setAttribute('aria-labelledby', 'cardLightboxTitle');
+      cardModal.innerHTML = `
+        <div class="viewer-toolbar">
+          <div>
+            <span class="eyebrow" id="cardLightboxKicker"></span>
+            <h2 id="cardLightboxTitle"></h2>
+          </div>
+          <div class="viewer-toolbar-actions">
+            <a class="btn dark viewer-inquire-btn" id="cardLightboxInquire" href="/contact/#inquiryForm"></a>
+            <button type="button" class="viewer-close" id="cardLightboxClose"></button>
+          </div>
+        </div>
+        <div class="viewer-stage card-lightbox-stage">
+          <img class="viewer-image" id="cardLightboxImg" src="" alt="" />
+        </div>
+        <div class="card-lightbox-details">
+          <p id="cardLightboxDesc"></p>
+        </div>
+      `;
+      document.body.appendChild(cardModal);
+    }
+
+    const closeCardModal = () => cardModal?.close();
+    cardModal.querySelector('#cardLightboxClose')?.addEventListener('click', closeCardModal, { signal });
+    cardModal.querySelector('#cardLightboxInquire')?.addEventListener('click', closeCardModal, { signal });
+    cardModal.addEventListener('click', (event) => {
+      if (event.target !== cardModal) return;
+      const rect = cardModal.getBoundingClientRect();
+      if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) {
+        closeCardModal();
+      }
+    }, { signal });
+
+    const openCardInLightbox = (cardEl: Element) => {
+      if (!cardModal) return;
+      const img = cardEl.querySelector<HTMLImageElement>('img');
+      if (!img) return;
+      const isEs = document.documentElement.lang === 'es';
+      const kicker = cardEl.querySelector('.card-label, .eyebrow')?.textContent?.trim()
+        || (isEs ? 'OBRA SELECCIONADA' : 'SELECTED WORK');
+      const title = cardEl.querySelector('h2, h3, figcaption')?.textContent?.trim()
+        || img.alt;
+      const desc = cardEl.querySelector('p')?.textContent?.trim()
+        || img.alt;
+
+      const kickerEl = cardModal.querySelector<HTMLElement>('#cardLightboxKicker');
+      const titleEl = cardModal.querySelector<HTMLElement>('#cardLightboxTitle');
+      const descEl = cardModal.querySelector<HTMLElement>('#cardLightboxDesc');
+      const modalImg = cardModal.querySelector<HTMLImageElement>('#cardLightboxImg');
+      const inquireBtn = cardModal.querySelector<HTMLAnchorElement>('#cardLightboxInquire');
+      const closeBtn = cardModal.querySelector<HTMLButtonElement>('#cardLightboxClose');
+
+      if (kickerEl) kickerEl.textContent = kicker;
+      if (titleEl) titleEl.textContent = title;
+      if (descEl) descEl.textContent = desc;
+      if (modalImg) {
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+      }
+      if (closeBtn) closeBtn.textContent = isEs ? 'Cerrar ×' : 'Close ×';
+      if (inquireBtn) {
+        inquireBtn.textContent = isEs ? 'Consultar por este diseño →' : 'Ask about this design →';
+        inquireBtn.onclick = () => {
+          try {
+            sessionStorage.setItem('afm-inquiry-context', JSON.stringify({ id: 'card-preview', titleEn: title, titleEs: title }));
+            window.dispatchEvent(new CustomEvent('afm-context-change'));
+          } catch { /* ignore */ }
+          closeCardModal();
+        };
+      }
+      if (!cardModal.open) cardModal.showModal();
+    };
+
+    document.querySelectorAll<HTMLElement>('.faith-card, .service-card, .hero-slide').forEach((card) => {
+      const media = card.querySelector<HTMLElement>('.faith-card-media, .card-pic') ?? (card.classList.contains('hero-slide') ? card : null);
+      if (media) {
+        media.style.cursor = 'zoom-in';
+        media.addEventListener('click', (e) => {
+          if ((e.target as Element)?.closest('a, button')) return;
+          openCardInLightbox(card);
+        }, { signal });
+      }
+      card.querySelectorAll<HTMLElement>('[data-open-lightbox]').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openCardInLightbox(card);
+        }, { signal });
+      });
+    });
+
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const cleanupCarousel = setupHeroCarousel(signal, reducedMotion);
 
